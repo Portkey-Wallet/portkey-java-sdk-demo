@@ -1,2 +1,6 @@
 .vscode
 .vscode/**
+/target/
+/src/main/webapp/lib/
+/out/
+/.idea/

@@ -1,0 +1,31 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="tomcat-server" type="com.poratu.idea.plugins.tomcat">
+    <predefined_log_file enabled="true" id="Tomcat Localhost Log" />
+    <predefined_log_file enabled="true" id="Tomcat Access Log" />
+    <predefined_log_file id="Tomcat Catalina Log" />
+    <predefined_log_file id="Tomcat Manager Log" />
+    <predefined_log_file id="Tomcat Host Manager Log" />
+    <option name="contextPath" value="/" />
+    <option name="docBase" value="$PROJECT_DIR$/src/main/webapp" />
+    <option name="envOptions">
+      <map />
+    </option>
+    <option name="extraClassPath" value="" />
+    <option name="port" value="8090" />
+    <option name="tomcatInfo">
+      <TomcatInfo>
+        <option name="name" value="Apache Tomcat/11.0.0-M6" />
+        <option name="path" value="$PROJECT_DIR$/tomcat/apache-tomcat-11.0.0-M6" />
+        <option name="version" value="11.0.0.0" />
+      </TomcatInfo>
+    </option>
+    <option name="vmOptions" value="" />
+    <module name="aelf-java-sdk-demo" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+      <option name="BuildArtifacts" enabled="true">
+        <artifact name="aelf-java-sdk-demo:jar" />
+      </option>
+    </method>
+  </configuration>
+</component>
