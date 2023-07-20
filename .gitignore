@@ -4,3 +4,5 @@
 /src/main/webapp/lib/
 /out/
 /.idea/
+/tomcat/
+/src/main/java/io/

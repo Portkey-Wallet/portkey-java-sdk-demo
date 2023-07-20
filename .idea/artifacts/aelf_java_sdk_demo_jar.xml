@@ -1,5 +1,5 @@
 <component name="ArtifactManager">
-  <artifact type="jar" name="aelf-java-sdk-demo:jar">
+  <artifact type="jar" build-on-make="true" name="aelf-java-sdk-demo:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/aelf_java_sdk_demo_jar</output-path>
     <root id="archive" name="aelf-java-sdk-demo.jar">
       <element id="module-output" name="aelf-java-sdk-demo" />
