@@ -96,6 +96,9 @@ public class CentralServlet extends HttpServlet {
             return new Parameter<>(obj, position);
         } catch (NullPointerException e) {
             throw new AElfException(e, ResultCode.PARAM_ERROR, "check your params again ", true);
+        } catch (UnsupportedOperationException e) {
+            throw new AElfException(e, ResultCode.PARAM_ERROR,
+                    "it seems that you are providing a wrong parameter type, check your request again.", true);
         }
     }
 
