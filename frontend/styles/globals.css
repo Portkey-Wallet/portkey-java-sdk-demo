@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 108, 146, 140;
+  --background-end-rgb: 108, 146, 140;
+}
+
+/* @media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 255, 255, 255;
+    --background-end-rgb: 255, 255, 2550;
+  }
+} */
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+}
+
+.log-table {
+  position: absolute;
+  bottom: 0;
+  left: 15%;
+  width: 70%;
+  max-height: 50%;
+}
+
+.buttons {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  flex-flow: wrap;
+  align-items: center;
+}
+
+.basic-button {
+  background-color: aliceblue;
+  min-width: 10rem;
+  margin: 0.5rem;
+}
+
+.input-line {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 1rem;
+}
+
+.input {
+  margin: 1rem;
+}
+
+.ant-btn-primary {
+  background-color: royalblue;
+}
