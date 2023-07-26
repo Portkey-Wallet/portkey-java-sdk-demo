@@ -1,6 +1,5 @@
 package com.aelf.demo.internal;
 
-import com.aelf.demo.servlets.CentralServlet;
 import com.google.gson.*;
 import io.aelf.internal.sdkv2.AElfClientAsync;
 import io.aelf.response.ResultCode;
@@ -8,7 +7,6 @@ import io.aelf.sdk.AElfClient;
 import io.aelf.utils.AElfException;
 import io.aelf.utils.JsonUtil;
 import org.apache.http.util.TextUtils;
-import org.junit.Assert;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -53,7 +51,6 @@ public final class MethodCaller {
 
     public static Parameter<?> getDeclaredField(JsonObject element) throws AElfException {
         try {
-            Assert.assertNotNull(element);
             int type = element.get(PARAM_FIELD_TYPE).getAsInt();
             int position = element.get(PARAM_FIELD_POSITION).getAsInt();
             JsonElement content = element.get(PARAM_FIELD_CONTENT);
