@@ -5,13 +5,14 @@
     <predefined_log_file id="Tomcat Catalina Log" />
     <predefined_log_file id="Tomcat Manager Log" />
     <predefined_log_file id="Tomcat Host Manager Log" />
+    <option name="adminPort" value="8100" />
     <option name="contextPath" value="/" />
     <option name="docBase" value="$PROJECT_DIR$/src/main/webapp" />
     <option name="envOptions">
       <map />
     </option>
     <option name="extraClassPath" value="" />
-    <option name="port" value="8090" />
+    <option name="port" value="8190" />
     <option name="tomcatInfo">
       <TomcatInfo>
         <option name="name" value="Apache Tomcat/11.0.0-M6" />
