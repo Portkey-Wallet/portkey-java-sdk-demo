@@ -76,9 +76,19 @@ export class GlobalService {
         }, see the detailed info in the console.`
       );
     }
-    return convertResultAsRawString
-      ? await response.text()
-      : ((await response.json()) as T);
+    try {
+      const result = convertResultAsRawString
+        ? ((await response.text()) as T)
+        : ((await response.json()) as T);
+      return result;
+    } catch (e) {
+      if (e instanceof SyntaxError) {
+        throw new Error(
+          "The response is not a valid JSON string," +
+            " consider using convertResultAsRawString=true to convert it as string."
+        );
+      }
+    }
   }
 
   initAElfClient = (

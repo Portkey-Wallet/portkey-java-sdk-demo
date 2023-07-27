@@ -81,6 +81,11 @@ export interface JavaMethodRecord {
   method_name: string;
   special_call?: SpecialJavaCall;
   parameters?: Array<JavaParameter | null>;
+  /**
+   * treat the result as string, not as json object.
+   *
+   * if it is `true` and you set the T result type to a type that not compatible with type string, you may get an error.
+   */
   convertResultAsRawString?: boolean;
 }
 
