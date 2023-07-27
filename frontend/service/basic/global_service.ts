@@ -82,6 +82,7 @@ export class GlobalService {
         : ((await response.json()) as T);
       return result;
     } catch (e) {
+      console.error(e);
       if (e instanceof SyntaxError) {
         throw new Error(
           "The response is not a valid JSON string," +
