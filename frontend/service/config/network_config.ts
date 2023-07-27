@@ -1,5 +1,6 @@
 const local_port = 8190;
 export const host_url = `http://localhost:${local_port}`;
+export const central_servlet_path = "/api/central";
 
 export const GETQuery = (
   apiPath: string,

@@ -1,5 +1,9 @@
 import assert from "assert";
-import { GETQuery } from "../config/network_config";
+import {
+  GETQuery,
+  central_servlet_path,
+  host_url,
+} from "../config/network_config";
 import {
   JavaClassTarget,
   JavaClassType,
@@ -8,44 +12,68 @@ import {
 } from "../model/global";
 import { CallContractMethodParams } from "../model/param_models";
 import fetch from "node-fetch";
+
 export class GlobalService {
-  static async sendCentralQuery<T = string>(record: JavaMethodRecord) {
+  private static instance: GlobalService;
+  private static withHost = false;
+  private constructor() {}
+
+  static init(withHost?: boolean) {
+    if (!GlobalService.instance) {
+      GlobalService.instance = new GlobalService();
+    }
+    GlobalService.withHost = withHost ?? false;
+  }
+
+  static getInstance(): GlobalService {
+    if (!GlobalService.instance) {
+      GlobalService.init();
+    }
+    return GlobalService.instance;
+  }
+
+  async sendCentralQuery<T = string>(record: JavaMethodRecord) {
     const { target, method_name, special_call, parameters = [] } = record;
-    const url = GETQuery("/api/central", [
-      {
-        name: "target",
-        content: target,
-      },
-      {
-        name: "method_name",
-        content: method_name,
-      },
-      {
-        name: "special_call",
-        content: special_call ?? "null",
-      },
-      {
-        name: "params",
-        content:
-          parameters.length > 0
-            ? JSON.stringify(this.paramsCheck(parameters))
-            : JSON.stringify([]),
-        useBase64Encode: true,
-      },
-    ]);
+    const url = GETQuery(
+      GlobalService.withHost
+        ? host_url + central_servlet_path
+        : central_servlet_path,
+      [
+        {
+          name: "target",
+          content: target,
+        },
+        {
+          name: "method_name",
+          content: method_name,
+        },
+        {
+          name: "special_call",
+          content: special_call ?? "null",
+        },
+        {
+          name: "params",
+          content:
+            parameters.length > 0
+              ? JSON.stringify(this.paramsCheck(parameters))
+              : JSON.stringify([]),
+          useBase64Encode: true,
+        },
+      ]
+    );
     const response = await fetch(url);
     const result = (await response.json()) as T;
     return result;
   }
 
-  static getBlockHeight = () => {
+  getBlockHeight = () => {
     return this.sendCentralQuery<string>({
       target: JavaClassTarget.CLIENT_SDK,
       method_name: "getBlockHeight",
     });
   };
 
-  static getBlockByHash = (hash: string, includeTransactions?: boolean) => {
+  getBlockByHash = (hash: string, includeTransactions?: boolean) => {
     return this.sendCentralQuery({
       target: JavaClassTarget.CLIENT_SDK,
       method_name: "getBlockByHash",
@@ -64,7 +92,7 @@ export class GlobalService {
     });
   };
 
-  static getBlockByHeight = (height: number, includeTransactions?: boolean) => {
+  getBlockByHeight = (height: number, includeTransactions?: boolean) => {
     return this.sendCentralQuery({
       target: JavaClassTarget.CLIENT_SDK,
       method_name: "getBlockByHeight",
@@ -83,14 +111,14 @@ export class GlobalService {
     });
   };
 
-  static getChainStatus = () => {
+  getChainStatus = () => {
     return this.sendCentralQuery<{ ChainId: string }>({
       target: JavaClassTarget.CLIENT_SDK,
       method_name: "getChainStatus",
     });
   };
 
-  static getContractFileDescriptorSet = (address: string) => {
+  getContractFileDescriptorSet = (address: string) => {
     return this.sendCentralQuery({
       target: JavaClassTarget.CLIENT_SDK,
       method_name: "getContractFileDescriptorSet",
@@ -103,21 +131,21 @@ export class GlobalService {
     });
   };
 
-  static getTaskQueueStatus = () => {
+  getTaskQueueStatus = () => {
     return this.sendCentralQuery({
       target: JavaClassTarget.CLIENT_SDK,
       method_name: "getTaskQueueStatus",
     });
   };
 
-  static getTransactionPoolStatus = () => {
+  getTransactionPoolStatus = () => {
     return this.sendCentralQuery({
       target: JavaClassTarget.CLIENT_SDK,
       method_name: "getTransactionPoolStatus",
     });
   };
 
-  static getTransactionResult = (transactionId: string) => {
+  getTransactionResult = (transactionId: string) => {
     return this.sendCentralQuery({
       target: JavaClassTarget.CLIENT_SDK,
       method_name: "getTransactionResult",
@@ -130,7 +158,7 @@ export class GlobalService {
     });
   };
 
-  static getTransactionResults = (
+  getTransactionResults = (
     blockHash: string,
     offset: number,
     limit: number
@@ -155,7 +183,7 @@ export class GlobalService {
     });
   };
 
-  static getMerklePathByTransactionId = (transactionId: string) => {
+  getMerklePathByTransactionId = (transactionId: string) => {
     return this.sendCentralQuery({
       target: JavaClassTarget.CLIENT_SDK,
       method_name: "getMerklePathByTransactionId",
@@ -168,14 +196,14 @@ export class GlobalService {
     });
   };
 
-  static getChainId = () => {
+  getChainId = () => {
     return this.sendCentralQuery({
       target: JavaClassTarget.CLIENT_SDK,
       method_name: "getChainId",
     });
   };
 
-  // static removePeer = (address: string) => {
+  //  removePeer = (address: string) => {
   //   return this.sendCentralQuery({
   //     target: JavaClassTarget.CLIENT_SDK,
   //     name: "removePeer",
@@ -188,7 +216,7 @@ export class GlobalService {
   //   });
   // };
 
-  static getPeers = (withMetrics: boolean) => {
+  getPeers = (withMetrics: boolean) => {
     return this.sendCentralQuery({
       target: JavaClassTarget.CLIENT_SDK,
       method_name: "getPeers",
@@ -201,14 +229,14 @@ export class GlobalService {
     });
   };
 
-  static getNetworkInfo = () => {
+  getNetworkInfo = () => {
     return this.sendCentralQuery({
       target: JavaClassTarget.CLIENT_SDK,
       method_name: "getNetworkInfo",
     });
   };
 
-  static callContractMethod = ({
+  callContractMethod = ({
     contractName,
     methodName,
     privateKey,
@@ -243,21 +271,21 @@ export class GlobalService {
     });
   };
 
-  static isConnected = () => {
+  isConnected = () => {
     return this.sendCentralQuery({
       target: JavaClassTarget.CLIENT_SDK,
       method_name: "isConnected",
     });
   };
 
-  static generateKeyPairInfo = () => {
+  generateKeyPairInfo = () => {
     return this.sendCentralQuery({
       target: JavaClassTarget.CLIENT_SDK,
       method_name: "generateKeyPairInfo",
     });
   };
 
-  static getFormattedAddress = (privateKey: string, address: string) => {
+  getFormattedAddress = (privateKey: string, address: string) => {
     return this.sendCentralQuery({
       target: JavaClassTarget.CLIENT_SDK,
       method_name: "getFormattedAddress",
@@ -274,7 +302,7 @@ export class GlobalService {
     });
   };
 
-  static getAddressFromPubKey = (pubKey: string) => {
+  getAddressFromPubKey = (pubKey: string) => {
     return this.sendCentralQuery({
       target: JavaClassTarget.CLIENT_SDK,
       method_name: "getAddressFromPubKey",
@@ -287,7 +315,7 @@ export class GlobalService {
     });
   };
 
-  static getAddressFromPrivateKey = (privateKey: string) => {
+  getAddressFromPrivateKey = (privateKey: string) => {
     return this.sendCentralQuery({
       target: JavaClassTarget.CLIENT_SDK,
       method_name: "getAddressFromPrivateKey",
@@ -300,9 +328,7 @@ export class GlobalService {
     });
   };
 
-  static paramsCheck = (
-    params: Array<JavaParameter | null>
-  ): Array<JavaParameter> => {
+  paramsCheck = (params: Array<JavaParameter | null>): Array<JavaParameter> => {
     const checkAndThrow = (assertType: string, content: any) => {
       assert.equal(
         typeof content,

@@ -25,7 +25,8 @@ public final class MethodCaller {
     public static final String PARAM_FIELD_CONTENT = "content";
     public static final String PARAM_FIELD_CLASS_NAME = "javaReflectClassName";
 
-    public static String methodCall(String methodName, String params) throws NoSuchMethodException,InvocationTargetException, AElfException, IllegalAccessException {
+    public static String methodCall(String methodName, String params) throws NoSuchMethodException,InvocationTargetException,
+            AElfException, IllegalAccessException {
         JsonArray array;
         String decodedParams = TextUtils.isBlank(params)
                 ? "[]"

@@ -6,3 +6,5 @@
 /.idea/
 /tomcat/
 /src/main/java/io/
+
+/**/.DS_Store

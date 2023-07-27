@@ -18,7 +18,6 @@ import static com.aelf.demo.internal.MethodCaller.PARAM_METHOD_NAME;
 
 @WebServlet(name = "CentralServlet", urlPatterns = {"/api/central"})
 public class CentralServlet extends HttpServlet {
-
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, AElfException {
         String methodName = req.getParameter(PARAM_METHOD_NAME);
@@ -30,7 +29,9 @@ public class CentralServlet extends HttpServlet {
             resp.setStatus(HttpServletResponse.SC_OK);
             resp.getWriter().print(result);
         } catch (NoSuchMethodException e) {
-            throw new AElfException(e, ResultCode.PARAM_ERROR, "It seems that there's no method called : " + methodName, true);
+            throw new AElfException(e, ResultCode.PARAM_ERROR, "It seems that there's no method called : "
+                    + methodName + " , or you provided wrong types of params and Java reflection could not" +
+                    " determine which method you wanted to call.", true);
         } catch (Exception e) {
             throw new AElfException(e);
         }

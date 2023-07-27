@@ -7,11 +7,11 @@ export const buttonList: Array<{
 }> = [
   {
     title: "isConnected",
-    service: () => GlobalService.isConnected(),
+    service: () => GlobalService.getInstance().isConnected(),
   },
   {
     title: "getBlockHeight",
-    service: () => GlobalService.getBlockHeight(),
+    service: () => GlobalService.getInstance().getBlockHeight(),
   },
   {
     title: "getBlockByHash",
@@ -30,7 +30,7 @@ export const buttonList: Array<{
         ],
         onConfirm: async (instance) => {
           const { blockHash, includeTransactions } = instance;
-          return GlobalService.getBlockByHash(
+          return GlobalService.getInstance().getBlockByHash(
             blockHash,
             includeTransactions === "1"
           );
@@ -54,7 +54,7 @@ export const buttonList: Array<{
         ],
         onConfirm: async (instance) => {
           const { blockHeight, includeTransactions } = instance;
-          return GlobalService.getBlockByHeight(
+          return GlobalService.getInstance().getBlockByHeight(
             Number(blockHeight),
             includeTransactions === "1"
           );
@@ -63,7 +63,7 @@ export const buttonList: Array<{
   },
   {
     title: "getChainStatus",
-    service: () => GlobalService.getChainStatus(),
+    service: () => GlobalService.getInstance().getChainStatus(),
   },
   {
     title: "getContractFileDescriptorSet",
@@ -78,17 +78,19 @@ export const buttonList: Array<{
         ],
         onConfirm: async (instance) => {
           const { contractAddress } = instance;
-          return GlobalService.getContractFileDescriptorSet(contractAddress);
+          return GlobalService.getInstance().getContractFileDescriptorSet(
+            contractAddress
+          );
         },
       }),
   },
   {
     title: "getTaskQueueStatus",
-    service: () => GlobalService.getTaskQueueStatus(),
+    service: () => GlobalService.getInstance().getTaskQueueStatus(),
   },
   {
     title: "getTransactionPoolStatus",
-    service: () => GlobalService.getTransactionPoolStatus(),
+    service: () => GlobalService.getInstance().getTransactionPoolStatus(),
   },
   {
     title: "getTransactionResult",
@@ -103,7 +105,9 @@ export const buttonList: Array<{
         ],
         onConfirm: async (instance) => {
           const { transactionId } = instance;
-          return GlobalService.getTransactionResult(transactionId);
+          return GlobalService.getInstance().getTransactionResult(
+            transactionId
+          );
         },
       }),
   },
@@ -130,7 +134,7 @@ export const buttonList: Array<{
         ],
         onConfirm: async (instance) => {
           const { blockHash, offset, limit } = instance;
-          return GlobalService.getTransactionResults(
+          return GlobalService.getInstance().getTransactionResults(
             blockHash,
             Number(offset),
             Number(limit)
@@ -151,13 +155,15 @@ export const buttonList: Array<{
         ],
         onConfirm: async (instance) => {
           const { transactionId } = instance;
-          return GlobalService.getMerklePathByTransactionId(transactionId);
+          return GlobalService.getInstance().getMerklePathByTransactionId(
+            transactionId
+          );
         },
       }),
   },
   {
     title: "getChainId",
-    service: () => GlobalService.getChainId(),
+    service: () => GlobalService.getInstance().getChainId(),
   },
   {
     title: "getPeers",
@@ -172,13 +178,13 @@ export const buttonList: Array<{
         ],
         onConfirm: async (instance) => {
           const { withMetrics } = instance;
-          return GlobalService.getPeers(withMetrics === "1");
+          return GlobalService.getInstance().getPeers(withMetrics === "1");
         },
       }),
   },
   {
     title: "getNetworkInfo",
-    service: () => GlobalService.getNetworkInfo(),
+    service: () => GlobalService.getInstance().getNetworkInfo(),
   },
   {
     title: "callContractMethod",
@@ -215,7 +221,7 @@ export const buttonList: Array<{
         onConfirm: async (instance) => {
           const { contractName, methodName, privateKey, isViewMethod, params } =
             instance;
-          return GlobalService.callContractMethod({
+          return GlobalService.getInstance().callContractMethod({
             contractName,
             methodName,
             privateKey,
@@ -246,13 +252,16 @@ export const buttonList: Array<{
         ],
         onConfirm: async (instance) => {
           const { privateKey, address } = instance;
-          return GlobalService.getFormattedAddress(privateKey, address);
+          return GlobalService.getInstance().getFormattedAddress(
+            privateKey,
+            address
+          );
         },
       }),
   },
   {
     title: "generateKeyPairInfo",
-    service: () => GlobalService.generateKeyPairInfo(),
+    service: () => GlobalService.getInstance().generateKeyPairInfo(),
   },
   {
     title: "getAddressFromPubKey",
@@ -269,7 +278,7 @@ export const buttonList: Array<{
         ],
         onConfirm: async (instance) => {
           const { publicKey } = instance;
-          return GlobalService.getAddressFromPubKey(publicKey);
+          return GlobalService.getInstance().getAddressFromPubKey(publicKey);
         },
       }),
   },
@@ -288,7 +297,9 @@ export const buttonList: Array<{
         ],
         onConfirm: async (instance) => {
           const { privateKey } = instance;
-          return GlobalService.getAddressFromPrivateKey(privateKey);
+          return GlobalService.getInstance().getAddressFromPrivateKey(
+            privateKey
+          );
         },
       }),
   },
