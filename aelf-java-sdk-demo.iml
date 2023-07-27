@@ -7,6 +7,8 @@
       <excludeFolder url="file://$MODULE_DIR$/src/main/webapp/lib" />
       <excludeFolder url="file://$MODULE_DIR$/tomcat/apache-tomcat-11.0.0-M6/logs" />
       <excludeFolder url="file://$MODULE_DIR$/tomcat/apache-tomcat-11.0.0-M6/work" />
+      <excludeFolder url="file://$MODULE_DIR$/frontend/.next" />
+      <excludeFolder url="file://$MODULE_DIR$/frontend/node_modules" />
     </content>
   </component>
 </module>

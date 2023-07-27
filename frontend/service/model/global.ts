@@ -81,11 +81,13 @@ export interface JavaMethodRecord {
   method_name: string;
   special_call?: SpecialJavaCall;
   parameters?: Array<JavaParameter | null>;
+  convertResultAsRawString?: boolean;
 }
 
 export enum SpecialJavaCall {
   CREATE_ENDLESS_LOOP = "createEndlessLoop",
   CREATE_ASYNC_CALL = "createAsyncCall",
+  INIT_AELF_CLIENT = "initAelfClient",
 }
 
 export enum JavaClassTarget {

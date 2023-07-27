@@ -7,4 +7,5 @@
 /tomcat/
 /src/main/java/io/
 
+/**/*.zip
 /**/.DS_Store

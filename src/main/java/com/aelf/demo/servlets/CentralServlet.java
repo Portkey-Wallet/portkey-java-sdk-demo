@@ -13,8 +13,7 @@ import org.apache.http.util.TextUtils;
 
 import java.io.IOException;
 
-import static com.aelf.demo.internal.MethodCaller.PARAM_LIST;
-import static com.aelf.demo.internal.MethodCaller.PARAM_METHOD_NAME;
+import static com.aelf.demo.internal.MethodCaller.*;
 
 @WebServlet(name = "CentralServlet", urlPatterns = {"/api/central"})
 public class CentralServlet extends HttpServlet {
@@ -22,8 +21,19 @@ public class CentralServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, AElfException {
         String methodName = req.getParameter(PARAM_METHOD_NAME);
         String params = req.getParameter(PARAM_LIST);
+        String specialCall=req.getParameter(PARAM_SPECIAL_CALL);
         if (TextUtils.isBlank(methodName))
             throw new AElfException(ResultCode.PARAM_ERROR, "wrong query with no method name");
+        if(!"null".equals(specialCall)){
+            MethodCaller.initTarget(params,resp);
+        }else{
+            handleAElfClientMethodCall(methodName,params,resp);
+        }
+        resp.setHeader("Access-Control-Allow-Origin","*");
+    }
+
+
+    protected void handleAElfClientMethodCall(String methodName, String params, HttpServletResponse resp) {
         try {
             String result = MethodCaller.methodCall(methodName, params);
             resp.setStatus(HttpServletResponse.SC_OK);

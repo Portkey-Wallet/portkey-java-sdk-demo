@@ -1,10 +1,10 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="tomcat-server" type="com.poratu.idea.plugins.tomcat">
+    <log_file alias="Tomcat Catalina Log" path="$USER_HOME$/.SmartTomcat/aelf-java-sdk-demo/aelf-java-sdk-demo/logs/catalina.*" />
+    <log_file alias="Tomcat Manager Log" path="$USER_HOME$/.SmartTomcat/aelf-java-sdk-demo/aelf-java-sdk-demo/logs/manager.*" />
+    <log_file alias="Tomcat Host Manager Log" path="$USER_HOME$/.SmartTomcat/aelf-java-sdk-demo/aelf-java-sdk-demo/logs/host-manager.*" />
     <predefined_log_file enabled="true" id="Tomcat Localhost Log" />
     <predefined_log_file enabled="true" id="Tomcat Access Log" />
-    <predefined_log_file id="Tomcat Catalina Log" />
-    <predefined_log_file id="Tomcat Manager Log" />
-    <predefined_log_file id="Tomcat Host Manager Log" />
     <option name="adminPort" value="8100" />
     <option name="contextPath" value="/" />
     <option name="docBase" value="$PROJECT_DIR$/src/main/webapp" />
@@ -25,7 +25,7 @@
     <method v="2">
       <option name="Make" enabled="true" />
       <option name="BuildArtifacts" enabled="true">
-        <artifact name="aelf-java-sdk-demo:jar" />
+        <artifact name="war output" />
       </option>
     </method>
   </configuration>

@@ -9,6 +9,7 @@ import {
   JavaClassType,
   JavaMethodRecord,
   JavaParameter,
+  SpecialJavaCall,
 } from "../model/global";
 import { CallContractMethodParams } from "../model/param_models";
 import fetch from "node-fetch";
@@ -33,7 +34,13 @@ export class GlobalService {
   }
 
   async sendCentralQuery<T = string>(record: JavaMethodRecord) {
-    const { target, method_name, special_call, parameters = [] } = record;
+    const {
+      target,
+      method_name,
+      special_call,
+      parameters = [],
+      convertResultAsRawString,
+    } = record;
     const url = GETQuery(
       GlobalService.withHost
         ? host_url + central_servlet_path
@@ -62,9 +69,49 @@ export class GlobalService {
       ]
     );
     const response = await fetch(url);
-    const result = (await response.json()) as T;
-    return result;
+    if (!response.ok) {
+      throw new Error(
+        `Error: ${response.statusText ?? "internal error"}, status:${
+          response.status
+        }, see the detailed info in the console.`
+      );
+    }
+    return convertResultAsRawString
+      ? await response.text()
+      : ((await response.json()) as T);
   }
+
+  initAElfClient = (
+    url: string,
+    version: string = "1.0",
+    userName: string = "",
+    password: string = ""
+  ) => {
+    return this.sendCentralQuery({
+      target: JavaClassTarget.CLIENT_SDK,
+      method_name: "initAelfClient",
+      special_call: SpecialJavaCall.INIT_AELF_CLIENT,
+      convertResultAsRawString: true,
+      parameters: [
+        {
+          type: JavaClassType.STRING,
+          content: url,
+        },
+        {
+          type: JavaClassType.STRING,
+          content: version,
+        },
+        {
+          type: JavaClassType.STRING,
+          content: userName,
+        },
+        {
+          type: JavaClassType.STRING,
+          content: password,
+        },
+      ],
+    });
+  };
 
   getBlockHeight = () => {
     return this.sendCentralQuery<string>({

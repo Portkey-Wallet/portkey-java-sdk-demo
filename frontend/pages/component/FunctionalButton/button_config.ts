@@ -6,6 +6,45 @@ export const buttonList: Array<{
   service: () => Promise<any>;
 }> = [
   {
+    title: "initAElfClient",
+    service: () =>
+      callUpDialog({
+        title: "initAElfClient",
+        inputs: [
+          {
+            label: "url",
+            name: "url",
+            defaultValue: "https://aelf-test-node.aelf.io",
+          },
+          {
+            label: "version",
+            name: "version",
+            defaultValue: "1.0",
+          },
+          {
+            label: "userName",
+            name: "userName",
+            defaultValue: "",
+          },
+          {
+            label: "password",
+            name: "password",
+            defaultValue: "",
+          },
+        ],
+        onConfirm: async (instance) => {
+          const { url, version, userName, password } = instance;
+          GlobalService.init(true);
+          return GlobalService.getInstance().initAElfClient(
+            url,
+            version,
+            userName,
+            password
+          );
+        },
+      }),
+  },
+  {
     title: "isConnected",
     service: () => GlobalService.getInstance().isConnected(),
   },
