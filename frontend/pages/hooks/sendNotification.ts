@@ -3,10 +3,18 @@ import { notification } from "antd";
 const sendNotification = (config: {
   title: string;
   content: string;
-  autoClose: boolean;
+  autoClose?: AutoCloseType;
+  closeDuration?: number;
   type: "success" | "info" | "error";
 }) => {
-  switch (config.type) {
+  const {
+    title,
+    content,
+    autoClose = AutoCloseType.AUTO_CLOSE,
+    closeDuration = 10,
+    type,
+  } = config;
+  switch (type) {
     case "error":
       notification.error({
         message: config.title,
@@ -19,11 +27,17 @@ const sendNotification = (config: {
     case "info":
     default:
       notification.info({
-        message: config.title,
-        description: config.content,
-        duration: config.autoClose ? 10 : null,
+        message: title,
+        description: content,
+        duration:
+          autoClose === AutoCloseType.DO_NOT_CLOSE ? null : closeDuration,
       });
   }
 };
+
+export enum AutoCloseType {
+  DO_NOT_CLOSE = 1,
+  AUTO_CLOSE = 2,
+}
 
 export default sendNotification;

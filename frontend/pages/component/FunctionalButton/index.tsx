@@ -1,6 +1,6 @@
 import { ServiceResult } from "@/service/model/service_wrapper";
 import { Button } from "antd";
-import sendNotification from "../../hooks/sendNotification";
+import sendNotification, { AutoCloseType } from "../../hooks/sendNotification";
 
 const addButton = (title: string, service: () => Promise<any>, key: any) => {
   return (
@@ -26,16 +26,26 @@ const createServiceWrapper = async (
 };
 
 const callService = async (service: Promise<ServiceResult>) => {
+  const MAX_LENGTH_LIMIT = 300;
   try {
     const res: ServiceResult = await service;
     console.log(
       `Service result:`,
       Object.assign({}, res, { timeStamp: Date.now() })
     );
+    let logBody = JSON.stringify(res.message);
+    if (!logBody || logBody.length === 0) {
+      logBody = "the server returns ok but there's no message here";
+    } else if (logBody.length > MAX_LENGTH_LIMIT) {
+      logBody =
+        logBody.slice(0, MAX_LENGTH_LIMIT) +
+        "..." +
+        "\n" +
+        "   [there's too many characters here, please check the console for more details]";
+    }
     sendNotification({
       title: res.title,
-      content: JSON.stringify(res.message),
-      autoClose: false,
+      content: logBody,
       type: "success",
     });
   } catch (e) {
@@ -50,7 +60,6 @@ const callService = async (service: Promise<ServiceResult>) => {
           : typeof e === "string"
           ? e
           : JSON.stringify(e),
-      autoClose: false,
       type: "error",
     });
   }

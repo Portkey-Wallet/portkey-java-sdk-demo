@@ -21,7 +21,7 @@ export const callUpDialog = async (props: DialogProps) => {
         reject(e);
       }
     };
-    Modal.confirm({
+    Modal.info({
       title,
       content: (
         <div>
