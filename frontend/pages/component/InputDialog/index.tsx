@@ -1,11 +1,13 @@
 import React from "react";
-import { BasicForm, FormRefModel } from "../BasicForm";
+import { BasicForm, FormRefModel, InputConfig } from "../BasicForm";
 import { Modal } from "antd";
 import assert from "assert";
 
-export const callUpDialog = async (props: DialogProps) => {
+export const callUpDialog = async <T, R>(
+  props: DialogProps<T, R>
+): Promise<R> => {
   const { title, inputs, onConfirm } = props;
-  const ref = React.createRef<FormRefModel>();
+  const ref = React.createRef<FormRefModel<T>>();
   return new Promise((resolve, reject) => {
     const submit = async () => {
       try {
@@ -36,14 +38,14 @@ export const callUpDialog = async (props: DialogProps) => {
   });
 };
 
-export interface DialogProps {
+export interface DialogProps<T, R = any> {
   title: string;
-  inputs: Array<{
-    label: string;
-    name: string;
-    defaultValue?: string;
-    required?: boolean;
-    requireMsg?: string;
-  }>;
-  onConfirm: (formInstance: any) => Promise<any>;
+  inputs: Array<InputConfig<T>>;
+  /**
+   * receives the user input and start network request.
+   *
+   * @param formFieldRecord `{ [key in keyof T]: string }` an object with the same keys as the inputs, and the values are the user input
+   * @returns a promise that resolves when the user clicks the ok button, and rejects when the user clicks the cancel button
+   */
+  onConfirm: (formFieldRecord: { [key in keyof T]: string }) => Promise<R>;
 }

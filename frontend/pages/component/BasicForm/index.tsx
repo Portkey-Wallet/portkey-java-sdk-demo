@@ -3,14 +3,8 @@ import { useImperativeHandle } from "react";
 
 const { Item } = Form;
 
-export const BasicForm = (props: {
-  inputs: Array<{
-    label: string;
-    name: string;
-    defaultValue?: string;
-    required?: boolean;
-    requireMsg?: string;
-  }>;
+export const BasicForm = <T,>(props: {
+  inputs: Array<InputConfig<T>>;
   formRef: any;
 }) => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -18,7 +12,7 @@ export const BasicForm = (props: {
   const { inputs, formRef } = props;
   useImperativeHandle(
     formRef,
-    (): FormRefModel => ({
+    (): FormRefModel<T> => ({
       getFromInstance: () => {
         return form;
       },
@@ -31,7 +25,7 @@ export const BasicForm = (props: {
           <Item
             key={index}
             label={input.label}
-            name={input.name}
+            name={input.name as any}
             initialValue={input.defaultValue ?? ""}
             rules={[
               {
@@ -48,6 +42,38 @@ export const BasicForm = (props: {
   );
 };
 
-export interface FormRefModel {
-  getFromInstance: () => FormInstance<any>;
+export interface StringKeyMap {
+  [key: string]: string;
+}
+
+export interface InputConfig<V> {
+  /**
+   * shown on the left side of the input
+   */
+  label: string;
+  /**
+   * type: `keyof V`
+   *
+   * used as the unique key of the input, should be unique in the whole form
+   */
+  name: keyof V;
+  /**
+   * default value of the input
+   * @optional
+   */
+  defaultValue?: string;
+  /**
+   * whether the input is required
+   * @optional
+   */
+  required?: boolean;
+  /**
+   * if the input is required, the message shown when the input is empty
+   * @optional
+   */
+  requireMsg?: string;
+}
+
+export interface FormRefModel<K> {
+  getFromInstance: () => FormInstance<{ [key in keyof K]: string }>;
 }
