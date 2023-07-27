@@ -87,6 +87,8 @@ export class GlobalService {
           "The response is not a valid JSON string," +
             " consider using convertResultAsRawString=true to convert it as string."
         );
+      } else {
+        throw e;
       }
     }
   }
